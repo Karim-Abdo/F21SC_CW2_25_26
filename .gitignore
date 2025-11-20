@@ -1,0 +1,58 @@
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# Python compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Data files (optional - uncomment if files are large)
+# data/*.json
+
+# Output files
+output/
+*.ps
+*.pdf
+*.dot
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Logs
+*.log
+
+# Data files
+data/issuu_cw2.json
+data/*.json
+!data/issuu_sample.json
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
