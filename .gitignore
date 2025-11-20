@@ -56,3 +56,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.pyc
+__pycache__/config.cpython-312.pyc
+visualization/__pycache__/graph_visualizer.cpython-312.pyc
+__pycache__/analytics_manager.cpython-312.pyc
+interfaces/__pycache__/cli.cpython-312.pyc
+data/__pycache__/data_loader.cpython-312.pyc
+analyzers/__pycache__/recommendation.cpython-312.pyc
