@@ -20,12 +20,32 @@ class CLI:
     def run(self):
         args = self.parse_arguments()
         
-        # Load data from specified file
         self.analytics_manager.data_loader.file_path = args.file_name
         self.analytics_manager.load_data()
         
         try:
-            if args.task_id == '5d':
+            if args.task_id == '2a':
+                if not args.doc_uuid:
+                    print("Error: Document UUID required for task 2a")
+                    sys.exit(1)
+                self.analytics_manager.country_analyzer.plot_country_histogram(args.doc_uuid)
+            
+            elif args.task_id == '2b':
+                if not args.doc_uuid:
+                    print("Error: Document UUID required for task 2b")
+                    sys.exit(1)
+                self.analytics_manager.country_analyzer.plot_continent_histogram(args.doc_uuid)
+            
+            elif args.task_id == '3a':
+                self.analytics_manager.browser_analyzer.plot_raw_browser_histogram()
+            
+            elif args.task_id == '3b':
+                self.analytics_manager.browser_analyzer.plot_browser_histogram()
+            
+            elif args.task_id == '4':
+                self.analytics_manager.reader_analyzer.print_top_readers()
+            
+            elif args.task_id == '5d':
                 if not args.doc_uuid:
                     print("Error: Document UUID required for task 5d")
                     sys.exit(1)
@@ -43,27 +63,22 @@ class CLI:
                 )
                 print(f"Graph generated:")
                 print(f"  DOT: {dot_file}")
-                if ps_file:
-                    print(f"  PS: {ps_file}")
-                if pdf_file:
-                    print(f"  PDF: {pdf_file}")
+                if ps_file: print(f"  PS: {ps_file}")
+                if pdf_file: print(f"  PDF: {pdf_file}")
             
             elif args.task_id == '7':
                 if not args.doc_uuid:
                     print("Error: Document UUID required for task 7")
                     sys.exit(1)
                 
-                # First generate the graph
                 dot_file, ps_file, pdf_file = self.analytics_manager.generate_also_likes_graph(
                     args.doc_uuid, args.user_uuid
                 )
                 print(f"Graph generated for GUI display")
                 
-                # Then launch GUI with pre-filled values
                 from interfaces.gui import GUI
                 gui = GUI(self.analytics_manager)
                 
-                # Pre-fill the document and visitor fields in GUI
                 if args.doc_uuid:
                     gui.graph_doc_entry.insert(0, args.doc_uuid)
                 if args.user_uuid:
