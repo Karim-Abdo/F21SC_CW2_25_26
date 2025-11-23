@@ -62,3 +62,4 @@ __pycache__/analytics_manager.cpython-312.pyc
 interfaces/__pycache__/cli.cpython-312.pyc
 data/__pycache__/data_loader.cpython-312.pyc
 analyzers/__pycache__/recommendation.cpython-312.pyc
+
