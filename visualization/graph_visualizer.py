@@ -1,5 +1,6 @@
 import os
 import subprocess
+import platform
 from typing import Dict
 
 class GraphVisualizer:
@@ -27,10 +28,32 @@ class GraphVisualizer:
             subprocess.run(['dot', '-Tpdf', '-o', pdf_file, dot_file], check=True, capture_output=True)
             
             print(f"Graph generated: {dot_file}, {ps_file}, {pdf_file}")
+            
+            # Automatically open the PDF
+            self._open_pdf(pdf_file)
+            
             return dot_file, ps_file, pdf_file
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            print("Graphviz not found or error generating graph. DOT file created.")
+        except (subprocess.CalledProcessError, FileNotFoundError) as e:
+            print(f"Graphviz not found or error generating graph: {e}")
+            print("DOT file created.")
             return dot_file, None, None
+    
+    def _open_pdf(self, pdf_file: str):
+        """Open the PDF file using the system's default PDF viewer"""
+        try:
+            system = platform.system()
+            
+            if system == "Windows":
+                os.startfile(pdf_file)
+            elif system == "Darwin":  # macOS
+                subprocess.run(['open', pdf_file], check=False)
+            else:  # Linux
+                subprocess.run(['xdg-open', pdf_file], check=False)
+            
+            print(f"Opening PDF: {pdf_file}")
+        except Exception as e:
+            print(f"Could not open PDF automatically: {e}")
+            print(f"Please open manually: {pdf_file}")
     
     def _create_dot_content(self, graph_data: Dict) -> str:
         input_doc = graph_data['input_document']
@@ -46,20 +69,23 @@ class GraphVisualizer:
             ""
         ]
         
+        # Readers - all white
         for reader in relevant_readers:
             short_reader = self._shorten_uuid(reader)
-            color = "lightgreen" if reader == input_visitor else "lightblue"
-            dot_lines.append(f'  reader_{short_reader} [label="{short_reader}", fillcolor="{color}"];')
+            dot_lines.append(f'  reader_{short_reader} [label="{short_reader}", fillcolor="white"];')
         
+        # Input document - green
         short_input_doc = self._shorten_uuid(input_doc)
         dot_lines.append(f'  doc_{short_input_doc} [label="{short_input_doc}", fillcolor="lightgreen"];')
         
+        # Also-liked documents - white
         for doc in also_liked_docs:
             short_doc = self._shorten_uuid(doc)
-            dot_lines.append(f'  doc_{short_doc} [label="{short_doc}", fillcolor="lightcoral"];')
+            dot_lines.append(f'  doc_{short_doc} [label="{short_doc}", fillcolor="white"];')
         
         dot_lines.append("")
         
+        # Edges
         for reader in relevant_readers:
             short_reader = self._shorten_uuid(reader)
             docs_read = reader_documents.get(reader, set())
