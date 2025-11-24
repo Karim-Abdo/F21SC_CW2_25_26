@@ -38,8 +38,8 @@ class GraphVisualizer:
             print("DOT file created.")
             return dot_file, None, None
     
+        #Open the PDF file using the system's default PDF viewer
     def _open_pdf(self, pdf_file: str):
-        """Open the PDF file using the system's default PDF viewer"""
         try:
             system = platform.system()
             
@@ -48,7 +48,7 @@ class GraphVisualizer:
             elif system == "Darwin":  # macOS
                 subprocess.run(['open', pdf_file], check=False)
             else:  # Linux
-                subprocess.run(['xdg-open', pdf_file], check=False)
+                subprocess.run(['xdg open', pdf_file], check=False)
             
             print(f"Opening PDF: {pdf_file}")
         except Exception as e:
@@ -69,16 +69,16 @@ class GraphVisualizer:
             ""
         ]
         
-        # Readers - all white
+        # Readers all white
         for reader in relevant_readers:
             short_reader = self._shorten_uuid(reader)
             dot_lines.append(f'  reader_{short_reader} [label="{short_reader}", fillcolor="white"];')
         
-        # Input document - green
+        # Input document green
         short_input_doc = self._shorten_uuid(input_doc)
         dot_lines.append(f'  doc_{short_input_doc} [label="{short_input_doc}", fillcolor="lightgreen"];')
         
-        # Also-liked documents - white
+        # Also liked documents white
         for doc in also_liked_docs:
             short_doc = self._shorten_uuid(doc)
             dot_lines.append(f'  doc_{short_doc} [label="{short_doc}", fillcolor="white"];')
