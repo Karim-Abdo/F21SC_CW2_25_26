@@ -42,11 +42,10 @@ class GUI:
         notebook.add(graph_frame, text="Graph Visualization")
         notebook.pack(expand=True, fill='both', padx=10, pady=10)
     
-    
+        #Tab for Country/Continent Views
     def setup_country_tab(self, parent):
-        """Tab for Country/Continent Views"""
         # Title
-        title = ttk.Label(parent, text="Country & Continent Analysis", 
+        title = ttk.Label(parent, text="Country and Continent Analysis", 
                          font=('Arial', 14, 'bold'))
         title.pack(pady=10)
         
@@ -82,8 +81,8 @@ class GUI:
         """
         ttk.Label(parent, text=info_text, foreground="gray").pack(pady=10)
     
+        #Show country histogram
     def show_country_histogram(self):
-        """Show country histogram"""
         doc_uuid = self.country_doc_entry.get().strip()
         if not doc_uuid:
             messagebox.showerror("Error", "Please enter a document UUID")
@@ -98,16 +97,16 @@ class GUI:
                 analyzer = CountryAnalyzer(data)
                 analyzer.plot_country_histogram(doc_uuid, top_n=20)
                 self.root.after(0, lambda: self.country_status.config(
-                    text="✓ Country histogram displayed successfully!"
+                    text=" Country histogram displayed successfully!"
                 ))
             except Exception as e:
                 self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to generate histogram:\n{str(e)}"))
-                self.root.after(0, lambda: self.country_status.config(text="✗ Error occurred"))
+                self.root.after(0, lambda: self.country_status.config(text="X Error occurred"))
         
         threading.Thread(target=task, daemon=True).start()
     
+        #Show continent histogram
     def show_continent_histogram(self):
-        """Show continent histogram"""
         doc_uuid = self.country_doc_entry.get().strip()
         if not doc_uuid:
             messagebox.showerror("Error", "Please enter a document UUID")
@@ -122,17 +121,16 @@ class GUI:
                 analyzer = CountryAnalyzer(data)
                 analyzer.plot_continent_histogram(doc_uuid)
                 self.root.after(0, lambda: self.country_status.config(
-                    text="✓ Continent histogram displayed successfully!"
+                    text=" Continent histogram displayed successfully!"
                 ))
             except Exception as e:
                 self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to generate histogram:\n{str(e)}"))
-                self.root.after(0, lambda: self.country_status.config(text="✗ Error occurred"))
+                self.root.after(0, lambda: self.country_status.config(text="X Error occurred"))
         
         threading.Thread(target=task, daemon=True).start()
     
-    
+        #Tab for Browser Analysis
     def setup_browser_tab(self, parent):
-        """Tab for Browser Analysis"""
         # Title
         title = ttk.Label(parent, text="Browser Analysis", 
                          font=('Arial', 14, 'bold'))
@@ -163,8 +161,8 @@ class GUI:
         """
         ttk.Label(parent, text=info_text, foreground="gray", wraplength=700).pack(pady=10)
     
+        #Show raw browser histogram
     def show_raw_browsers(self):
-        """Show raw browser histogram"""
         self.browser_status.config(text="Generating raw browser histogram...")
         
         def task():
@@ -174,16 +172,16 @@ class GUI:
                 analyzer = BrowserAnalyzer(data)
                 analyzer.plot_raw_browser_histogram(top_n=15)
                 self.root.after(0, lambda: self.browser_status.config(
-                    text="✓ Raw browser histogram displayed successfully!"
+                    text=" Raw browser histogram displayed successfully!"
                 ))
             except Exception as e:
                 self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to generate histogram:\n{str(e)}"))
-                self.root.after(0, lambda: self.browser_status.config(text="✗ Error occurred"))
+                self.root.after(0, lambda: self.browser_status.config(text="X Error occurred"))
         
         threading.Thread(target=task, daemon=True).start()
-    
+
+        #Show simplified browser histogram
     def show_simplified_browsers(self):
-        """Show simplified browser histogram"""
         self.browser_status.config(text="Generating simplified browser histogram...")
         
         def task():
@@ -193,17 +191,16 @@ class GUI:
                 analyzer = BrowserAnalyzer(data)
                 analyzer.plot_browser_histogram()
                 self.root.after(0, lambda: self.browser_status.config(
-                    text="✓ Simplified browser histogram displayed successfully!"
+                    text=" Simplified browser histogram displayed successfully!"
                 ))
             except Exception as e:
                 self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to generate histogram:\n{str(e)}"))
-                self.root.after(0, lambda: self.browser_status.config(text="✗ Error occurred"))
+                self.root.after(0, lambda: self.browser_status.config(text="X Error occurred"))
         
         threading.Thread(target=task, daemon=True).start()
     
-   
+        #Tab for Reader Profiles
     def setup_reader_tab(self, parent):
-        """Tab for Reader Profiles"""
         # Title
         title = ttk.Label(parent, text="Reader Profiles", 
                          font=('Arial', 14, 'bold'))
@@ -233,8 +230,8 @@ class GUI:
         info_text = "This shows readers ranked by total time spent reading documents."
         ttk.Label(parent, text=info_text, foreground="gray").pack(pady=5)
     
+        #Show top readers
     def show_top_readers(self):
-        """Show top readers"""
         try:
             n = int(self.reader_n_entry.get())
             if n <= 0:
@@ -282,14 +279,13 @@ class GUI:
         
         threading.Thread(target=task, daemon=True).start()
     
+        #Display reader results in text area
     def display_reader_results(self, result):
-        """Display reader results in text area"""
         self.reader_text.delete(1.0, tk.END)
         self.reader_text.insert(tk.END, result)
     
-    
+        #Tab for Also Likes
     def setup_also_likes_tab(self, parent):
-        """Tab for Also Likes"""
         # Title
         title = ttk.Label(parent, text="Also Likes Recommendations", 
                          font=('Arial', 14, 'bold'))
@@ -325,7 +321,7 @@ class GUI:
                     for i, doc in enumerate(result, 1):
                         formatted_result += f"{i}. {doc}\n"
                 else:
-                    formatted_result += "No also-liked documents found.\n"
+                    formatted_result += "No also liked documents found.\n"
                     formatted_result += "(This may happen with small datasets or isolated documents)\n"
                 
                 self.root.after(0, lambda: self.display_also_likes_results(formatted_result))
@@ -338,9 +334,8 @@ class GUI:
         self.also_likes_text.delete(1.0, tk.END)
         self.also_likes_text.insert(tk.END, result)
     
-    
+        #Tab for Graph Visualization
     def setup_graph_tab(self, parent):
-        """Tab for Graph Visualization"""
         # Title
         title = ttk.Label(parent, text="Also Likes Graph Visualization", 
                          font=('Arial', 14, 'bold'))
@@ -385,17 +380,17 @@ class GUI:
                 
                 if pdf_file:
                     self.root.after(0, lambda: self.graph_status.config(
-                        text=f"✓ Graph generated: {pdf_file}"
+                        text=f" Graph generated: {pdf_file}"
                     ))
                     # Try to open the graph
                     self.analytics_manager.display_graph()
                 else:
                     self.root.after(0, lambda: self.graph_status.config(
-                        text="⚠ Graph DOT file generated but PDF conversion failed (graphviz not installed)"
+                        text="X Graph DOT file generated but PDF conversion failed (graphviz not installed)"
                     ))
                     
             except Exception as e:
-                self.root.after(0, lambda: self.graph_status.config(text=f"✗ Error: {str(e)}"))
+                self.root.after(0, lambda: self.graph_status.config(text=f"X Error: {str(e)}"))
         
         threading.Thread(target=task, daemon=True).start()
     

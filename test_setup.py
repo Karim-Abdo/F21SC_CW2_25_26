@@ -1,13 +1,8 @@
-"""
-Complete test setup for ALL Tasks 1-8
-Tests both your work (Tasks 2, 3, 4) and groupmate's work (Tasks 5, 6, 7, 8)
-"""
 import os
 import sys
 
-
+    #Test 1: Check if all modules can be imported
 def test_imports():
-    """Test 1: Check if all modules can be imported"""
     print("\n" + "="*80)
     print("TEST 1: Testing Python Imports")
     print("="*80)
@@ -32,22 +27,21 @@ def test_imports():
             getattr(module, class_name)
             print(f"  ✓ {name}")
         except ImportError as e:
-            print(f"  ✗ {name}: {e}")
+            print(f"  X {name}: {e}")
             all_passed = False
         except AttributeError as e:
-            print(f"  ✗ {name}: Class not found - {e}")
+            print(f"  X {name}: Class not found - {e}")
             all_passed = False
     
     if all_passed:
         print("\n✓ All imports successful!")
     else:
-        print("\n✗ Some imports failed!")
+        print("\nX Some imports failed!")
     
     return all_passed
 
-
+    #Test 2: Check if data can be loaded
 def test_data_loading():
-    """Test 2: Check if data can be loaded"""
     print("\n" + "="*80)
     print("TEST 2: Testing Data Loading")
     print("="*80)
@@ -57,7 +51,7 @@ def test_data_loading():
     # Check if data file exists
     data_file = "data/issuu_sample.json"
     if not os.path.exists(data_file):
-        print(f"  ✗ Data file not found: {data_file}")
+        print(f"  X Data file not found: {data_file}")
         print("    Please download issuu_sample.json to the data/ folder")
         return False
     
@@ -69,7 +63,7 @@ def test_data_loading():
         data = loader.load_data()
         
         if not data:
-            print("  ✗ No data loaded")
+            print("  X No data loaded")
             return False
         
         print(f"  ✓ Loaded {len(data)} records")
@@ -84,23 +78,23 @@ def test_data_loading():
             missing_fields = [field for field in required_fields if field not in first_record]
             
             if missing_fields:
-                print(f"  ⚠ Missing fields in data: {missing_fields}")
+                print(f"   Missing fields in data: {missing_fields}")
             else:
                 print(f"  ✓ All required fields present")
         
         return True
         
     except Exception as e:
-        print(f"  ✗ Error loading data: {e}")
+        print(f"  X Error loading data: {e}")
         import traceback
         traceback.print_exc()
         return False
 
 
+    #Test 3: Test CountryAnalyzer (Task 2a, 2b)
 def test_country_analyzer():
-    """Test 3: Test CountryAnalyzer (Task 2a, 2b)"""
     print("\n" + "="*80)
-    print("TEST 3: Testing CountryAnalyzer (Tasks 2a & 2b)")
+    print("TEST 3: Testing CountryAnalyzer (Tasks 2a and 2b)")
     print("="*80)
     
     try:
@@ -112,13 +106,13 @@ def test_country_analyzer():
         data = loader.load_data()
         
         if not data:
-            print("  ✗ No data to test with")
+            print("  X No data to test with")
             return False
         
         # Get a sample document
         sample_doc = data[0].get('env_doc_id', '')
         if not sample_doc:
-            print("  ✗ Could not find document UUID")
+            print("  X Could not find document UUID")
             return False
         
         print(f"  ✓ Using document: {sample_doc[:16]}...")
@@ -134,7 +128,7 @@ def test_country_analyzer():
             top_country = max(country_counts, key=country_counts.get)
             print(f"    Top country: {top_country} with {country_counts[top_country]} views")
         else:
-            print("  ✗ Task 2a: No country data found")
+            print("  X Task 2a: No country data found")
             return False
         
         # Test Task 2b: get_views_by_continent
@@ -144,23 +138,22 @@ def test_country_analyzer():
             top_continent = max(continent_counts, key=continent_counts.get)
             print(f"    Top continent: {top_continent} with {continent_counts[top_continent]} views")
         else:
-            print("  ✗ Task 2b: No continent data found")
+            print("  X Task 2b: No continent data found")
             return False
         
         print("  ✓ CountryAnalyzer working correctly")
         return True
         
     except Exception as e:
-        print(f"  ✗ Error testing CountryAnalyzer: {e}")
+        print(f"  X Error testing CountryAnalyzer: {e}")
         import traceback
         traceback.print_exc()
         return False
 
-
+    #Test 4: Test BrowserAnalyzer (Task 3a, 3b)
 def test_browser_analyzer():
-    """Test 4: Test BrowserAnalyzer (Task 3a, 3b)"""
     print("\n" + "="*80)
-    print("TEST 4: Testing BrowserAnalyzer (Tasks 3a & 3b)")
+    print("TEST 4: Testing BrowserAnalyzer (Tasks 3a and 3b)")
     print("="*80)
     
     try:
@@ -172,7 +165,7 @@ def test_browser_analyzer():
         data = loader.load_data()
         
         if not data:
-            print("  ✗ No data to test with")
+            print("  X No data to test with")
             return False
         
         # Initialize analyzer
@@ -184,7 +177,7 @@ def test_browser_analyzer():
         if raw_browsers:
             print(f"  ✓ Task 3a: Found {len(raw_browsers)} unique user agents")
         else:
-            print("  ✗ Task 3a: No browser data found")
+            print("  X Task 3a: No browser data found")
             return False
         
         # Test Task 3b: get_browser_counts
@@ -193,21 +186,20 @@ def test_browser_analyzer():
             print(f"  ✓ Task 3b: Found {len(browser_counts)} browser types")
             print(f"    Browsers: {list(browser_counts.keys())}")
         else:
-            print("  ✗ Task 3b: No simplified browser data found")
+            print("  X Task 3b: No simplified browser data found")
             return False
         
         print("  ✓ BrowserAnalyzer working correctly")
         return True
         
     except Exception as e:
-        print(f"  ✗ Error testing BrowserAnalyzer: {e}")
+        print(f"  X Error testing BrowserAnalyzer: {e}")
         import traceback
         traceback.print_exc()
         return False
 
-
+    #Test 5: Test ReaderAnalyzer (Task 4)
 def test_reader_analyzer():
-    """Test 5: Test ReaderAnalyzer (Task 4)"""
     print("\n" + "="*80)
     print("TEST 5: Testing ReaderAnalyzer (Task 4)")
     print("="*80)
@@ -221,7 +213,7 @@ def test_reader_analyzer():
         data = loader.load_data()
         
         if not data:
-            print("  ✗ No data to test with")
+            print("  X No data to test with")
             return False
         
         # Initialize analyzer
@@ -238,21 +230,20 @@ def test_reader_analyzer():
                 minutes = (top_time % 3600) // 60
                 print(f"    Top reader: {top_uuid[:16]}... with {top_time}s ({hours}h {minutes}m)")
         else:
-            print("  ✗ Task 4: No reader data found")
+            print("  X Task 4: No reader data found")
             return False
         
         print("  ✓ ReaderAnalyzer working correctly")
         return True
         
     except Exception as e:
-        print(f"  ✗ Error testing ReaderAnalyzer: {e}")
+        print(f"  X Error testing ReaderAnalyzer: {e}")
         import traceback
         traceback.print_exc()
         return False
 
-
+    #Test 6: Test RecommendationAnalyzer (Task 5)
 def test_recommendation_analyzer():
-    """Test 6: Test RecommendationAnalyzer (Task 5)"""
     print("\n" + "="*80)
     print("TEST 6: Testing RecommendationAnalyzer (Task 5 - Also Likes)")
     print("="*80)
@@ -272,14 +263,14 @@ def test_recommendation_analyzer():
         # Get sample document and visitor
         data = loader.load_data()
         if not data:
-            print("  ✗ No data to test with")
+            print("  X No data to test with")
             return False
         
         sample_doc = data[0].get('env_doc_id', '')
         sample_visitor = data[0].get('visitor_uuid', '')
         
         if not sample_doc or not sample_visitor:
-            print("  ✗ Could not find sample document/visitor")
+            print("  X Could not find sample document/visitor")
             return False
         
         print(f"  ✓ Using document: {sample_doc[:16]}...")
@@ -290,34 +281,33 @@ def test_recommendation_analyzer():
         if visitors:
             print(f"  ✓ Task 5a: Found {len(visitors)} visitors for document")
         else:
-            print("  ⚠ Task 5a: No visitors found (might be normal for small data)")
+            print("   Task 5a: No visitors found (might be normal for small data)")
         
         # Test Task 5b: get_documents_of_visitor
         docs = analyzer.get_documents_of_visitor(sample_visitor)
         if docs:
             print(f"  ✓ Task 5b: Found {len(docs)} documents for visitor")
         else:
-            print("  ⚠ Task 5b: No documents found (might be normal for small data)")
+            print("   Task 5b: No documents found (might be normal for small data)")
         
         # Test Task 5d: get_top_also_likes
         try:
             also_likes = analyzer.get_top_also_likes(sample_doc, sample_visitor, top_n=5)
             print(f"  ✓ Task 5d: Found {len(also_likes)} also-liked documents")
         except Exception as e:
-            print(f"  ⚠ Task 5d: Could not get also-likes (might be normal for small data): {e}")
+            print(f"   Task 5d: Could not get also-likes (might be normal for small data): {e}")
         
         print("  ✓ RecommendationAnalyzer working correctly")
         return True
         
     except Exception as e:
-        print(f"  ✗ Error testing RecommendationAnalyzer: {e}")
+        print(f"  X Error testing RecommendationAnalyzer: {e}")
         import traceback
         traceback.print_exc()
         return False
 
-
+    #Test 7: Test GraphVisualizer (Task 6)
 def test_graph_visualizer():
-    """Test 7: Test GraphVisualizer (Task 6)"""
     print("\n" + "="*80)
     print("TEST 7: Testing GraphVisualizer (Task 6 - Also Likes Graph)")
     print("="*80)
@@ -333,7 +323,7 @@ def test_graph_visualizer():
         if os.path.exists("output"):
             print("  ✓ Output directory exists")
         else:
-            print("  ⚠ Output directory doesn't exist (will be created on use)")
+            print("   Output directory doesn't exist (will be created on use)")
         
         # Test graph data structure (without actually generating)
         test_graph_data = {
@@ -348,20 +338,19 @@ def test_graph_visualizer():
         }
         
         print("  ✓ Task 6: Graph data structure validated")
-        print("  ⚠ Actual graph generation skipped (requires graphviz)")
+        print("  Actual graph generation skipped (requires graphviz)")
         
         print("  ✓ GraphVisualizer structure correct")
         return True
         
     except Exception as e:
-        print(f"  ✗ Error testing GraphVisualizer: {e}")
+        print(f"  X Error testing GraphVisualizer: {e}")
         import traceback
         traceback.print_exc()
         return False
 
-
+    #Test 8: Test AnalyticsManager (Integration)
 def test_analytics_manager():
-    """Test 8: Test AnalyticsManager (Integration)"""
     print("\n" + "="*80)
     print("TEST 8: Testing AnalyticsManager (Integration)")
     print("="*80)
@@ -378,7 +367,7 @@ def test_analytics_manager():
         if data:
             print(f"  ✓ Data loaded through manager: {len(data)} records")
         else:
-            print("  ✗ Failed to load data through manager")
+            print("  X Failed to load data through manager")
             return False
         
         # Test also_likes integration
@@ -389,22 +378,22 @@ def test_analytics_manager():
                     also_likes = manager.get_also_likes(sample_doc)
                     print(f"  ✓ Also likes integration working")
                 except Exception as e:
-                    print(f"  ⚠ Also likes: {e}")
+                    print(f"   Also likes: {e}")
         
         print("  ✓ AnalyticsManager integration working")
         return True
         
     except Exception as e:
-        print(f"  ✗ Error testing AnalyticsManager: {e}")
+        print(f"  X Error testing AnalyticsManager: {e}")
         import traceback
         traceback.print_exc()
         return False
 
 
+    #Test 9: Test GUI and CLI interfaces exist (Task 7, 8)
 def test_gui_cli_interfaces():
-    """Test 9: Test GUI and CLI interfaces exist (Task 7, 8)"""
     print("\n" + "="*80)
-    print("TEST 9: Testing GUI & CLI Interfaces (Tasks 7 & 8)")
+    print("TEST 9: Testing GUI and CLI Interfaces (Tasks 7 and 8)")
     print("="*80)
     
     all_passed = True
@@ -414,7 +403,7 @@ def test_gui_cli_interfaces():
         from interfaces.cli import CLI
         print("  ✓ CLI module exists")
     except ImportError as e:
-        print(f"  ✗ CLI module: {e}")
+        print(f"  X CLI module: {e}")
         all_passed = False
     
     # Test GUI
@@ -422,21 +411,20 @@ def test_gui_cli_interfaces():
         from interfaces.gui import GUI
         print("  ✓ GUI module exists")
     except ImportError as e:
-        print(f"  ✗ GUI module: {e}")
+        print(f"  X GUI module: {e}")
         all_passed = False
     
     if all_passed:
-        print("  ⚠ Interface modules exist (actual functionality not tested)")
-        print("  ℹ To test GUI: Run 'python main.py'")
-        print("  ℹ To test CLI: Run 'python main.py -u <uuid> -d <uuid> -t <task> -f <file>'")
+        print("   Interface modules exist (actual functionality not tested)")
+        print(" To test GUI: Run 'python main.py'")
+        print(" To test CLI: Run 'python main.py -u <uuid> -d <uuid> -t <task> -f <file>'")
     
     return all_passed
 
-
+    #Run all tests
 def run_all_tests():
-    """Run all tests"""
     print("="*80)
-    print("COMPLETE TEST SUITE - ALL TASKS (1-8)")
+    print("COMPLETE TEST SUITE ALL TASKS (1-8)")
     print("="*80)
     
     tests = [
@@ -448,7 +436,7 @@ def run_all_tests():
         ("RecommendationAnalyzer (Task 5)", test_recommendation_analyzer),
         ("GraphVisualizer (Task 6)", test_graph_visualizer),
         ("AnalyticsManager (Integration)", test_analytics_manager),
-        ("GUI & CLI (Tasks 7 & 8)", test_gui_cli_interfaces),
+        ("GUI and CLI (Tasks 7 and 8)", test_gui_cli_interfaces),
     ]
     
     results = []
@@ -457,7 +445,7 @@ def run_all_tests():
             result = test_func()
             results.append((test_name, result))
         except Exception as e:
-            print(f"\n  ✗ {test_name} crashed: {e}")
+            print(f"\n  X {test_name} crashed: {e}")
             import traceback
             traceback.print_exc()
             results.append((test_name, False))
@@ -471,21 +459,21 @@ def run_all_tests():
     your_tests = ["CountryAnalyzer (Task 2)", "BrowserAnalyzer (Task 3)", "ReaderAnalyzer (Task 4)"]
     for test_name, result in results:
         if test_name in your_tests:
-            status = "✓ PASS" if result else "✗ FAIL"
+            status = "✓ PASS" if result else "X FAIL"
             print(f"  {status}: {test_name}")
     
-    print("\nGroupmate's Tasks (5, 6, 7, 8):")
-    groupmate_tests = ["RecommendationAnalyzer (Task 5)", "GraphVisualizer (Task 6)", "GUI & CLI (Tasks 7 & 8)"]
+    print("\nGroupmates Tasks (5, 6, 7, 8):")
+    groupmate_tests = ["RecommendationAnalyzer (Task 5)", "GraphVisualizer (Task 6)", "GUI and CLI (Tasks 7 and 8)"]
     for test_name, result in results:
         if test_name in groupmate_tests:
-            status = "✓ PASS" if result else "✗ FAIL"
+            status = "✓ PASS" if result else "X FAIL"
             print(f"  {status}: {test_name}")
     
-    print("\nIntegration & Setup:")
+    print("\nIntegration and Setup:")
     other_tests = ["Imports", "Data Loading", "AnalyticsManager (Integration)"]
     for test_name, result in results:
         if test_name in other_tests:
-            status = "✓ PASS" if result else "✗ FAIL"
+            status = "✓ PASS" if result else "X FAIL"
             print(f"  {status}: {test_name}")
     
     passed = sum(1 for _, result in results if result)
@@ -497,7 +485,7 @@ def run_all_tests():
     if passed == total:
         print("\n All tests passed! Project is complete and ready!")
     else:
-        print("\n⚠ Some tests failed. Check the output above for details.")
+        print("\n Some tests failed. Check the output above for details.")
     
     print("="*80)
     
