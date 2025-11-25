@@ -85,7 +85,7 @@ class GraphVisualizer:
         
         dot_lines.append("")
         
-        # Edges
+       
         for reader in relevant_readers:
             short_reader = self._shorten_uuid(reader)
             docs_read = reader_documents.get(reader, set())
